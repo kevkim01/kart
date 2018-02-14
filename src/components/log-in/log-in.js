@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
-import { Form, FormGroup, FormControl, HelpBlock } from 'react-bootstrap';
-import { Glyphicon, Alert } from 'react-bootstrap';
+import { Button, Form, FormGroup, FormControl, HelpBlock, Alert } from 'react-bootstrap';
+import style from './log-in.css';
 
 class LogIn extends Component {
 
@@ -48,6 +47,12 @@ class LogIn extends Component {
     if(e_val.length===0 || p_val.length===0){
       this.setState({
         form_error:"please fill in all fields",
+        show_alert:true
+      })
+    }
+    else if(!this.state.form_valid){
+      this.setState({
+        form_error:"there are invalid fields",
         show_alert:true
       })
     }
@@ -121,7 +126,7 @@ class LogIn extends Component {
     if(this.state.show_alert){
       const val_form = this.state.form_valid;
       return (
-        <Alert bsStyle="danger">
+        <Alert bsStyle="danger" className="si_f_alert">
           <strong>{!val_form ?this.state.form_error : ""}</strong>
         </Alert>
       )
@@ -133,9 +138,9 @@ class LogIn extends Component {
     const val_pass = this.state.pass_valid;
     const val_form = this.state.form_valid;
     return (
-      <div>
+      <div className="si_con">
         <h3>Sign In</h3>
-        <form onSubmit={this.handleSubmit.bind(this)} noValidate>
+        <form onSubmit={this.handleSubmit.bind(this)} noValidate className="si_form_info">
           <FormGroup validationState={this.getValidationStateEmail()}>
             <FormControl
               className="formemail"
