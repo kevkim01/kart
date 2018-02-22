@@ -1,13 +1,10 @@
-.ca_con {
+.main_content {
   margin: auto;
-  text-align: center;
   position: relative;
+  width: 50%;
+  top: 20%;
 }
 
-.ca_form_info {
+.form_info {
   margin: auto;
-}
-
-.ca_f_alert {
-  margin-top: 15px;
 }

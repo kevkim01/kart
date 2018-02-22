@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
+import firebase from 'firebase';
 import style from './nav-bar.css';
 import { Link } from 'react-router-dom';
 
@@ -8,7 +9,6 @@ class NavBar extends Component {
   constructor(){
     super();
     this.state ={
-      authenticated:false
     }
   }
 
@@ -17,14 +17,22 @@ class NavBar extends Component {
       <Navbar>
         <Navbar.Header>
           <Navbar.Brand>
-            <p>kart</p>
+            {this.props.authenticated
+              ? (
+                <Link to="/my-page"><p>kart</p></Link>
+              )
+              : (
+                <Link to="/"><p>kart</p></Link>
+              )
+            }
+
           </Navbar.Brand>
         </Navbar.Header>
         <Nav>
           {this.props.authenticated
             ? ( // if you are signed in
-              <NavItem is={Link}>
-                <Link to="/">sign out</Link>
+              <NavItem>
+                <Link to="/sign-out">sign out</Link>
               </NavItem>
             )
             : ( // if you are signed out
@@ -36,12 +44,12 @@ class NavBar extends Component {
 
           {this.props.authenticated
             ? (
-              <NavItem is={Link}>
-                <Link to="/create-account">create account</Link>
+              <NavItem>
+                <Link to="/profile">{this.props.email}</Link>
               </NavItem>
             )
             : (
-              <NavItem is={Link}>
+              <NavItem>
                 <Link to="/create-account">create account</Link>
               </NavItem>
             )

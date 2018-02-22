@@ -23,7 +23,10 @@ class SignIn extends Component {
     firebase.auth().signInWithEmailAndPassword(e_val, p_val)
       .then(function(){
         toast.dismiss();
-      })
+        this.setState({
+          redirect:true
+        })
+      }.bind(this))
       .catch(function(error) {
         var errorCode = error.code;
         var errorMessage = error.message;
@@ -66,7 +69,7 @@ class SignIn extends Component {
 
   render() {
     if(this.state.redirect === true){
-      return <Redirect to='/' />
+      return <Redirect to='/my-page' />
     }
     return(
       <div>

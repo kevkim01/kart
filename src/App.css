@@ -27,7 +27,16 @@
   to { transform: rotate(360deg); }
 }
 
-.container {
-  margin-left: 0;
-  margin-right: 0;
+.main {
+  position:absolute;
+    top:0px;
+    bottom:0px;
+    left:0px;
+    right:0px;
+}
+
+.content {
+  height: 90%;
+  width: 90%;
+  margin: auto;
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Form, FormGroup, FormControl, HelpBlock, Alert } from 'react-bootstrap';
+import { Button, Form, FormGroup, FormControl, ControlLabel, HelpBlock, Alert } from 'react-bootstrap';
 import style from './create-account.css';
 import firebase from 'firebase';
 import { Redirect } from 'react-router-dom';
@@ -21,7 +21,10 @@ class CreateAccount extends Component {
     firebase.auth().createUserWithEmailAndPassword(e_val, p_val)
       .then(function(){
         toast.dismiss();
-      })
+        this.setState({
+          redirect:true
+        })
+      }.bind(this))
       .catch(function(error){
         var errorCode = error.code;
         var errorMessage = error.message;
@@ -66,31 +69,34 @@ class CreateAccount extends Component {
 
   render() {
     if(this.state.redirect === true){
-      return <Redirect to='/' />
+      return <Redirect to='/my-page' />
     }
     return(
-      <div>
-      <ToastContainer />
-      <h3>CREATE ACCOUNT</h3>
-        <form onSubmit={this.handleSubmit.bind(this)} noValidate>
+      <div className="main_content">
+        <ToastContainer/>
+        <h2>Join Here</h2>
+        <form onSubmit={this.handleSubmit.bind(this)} noValidate className="form_info">
           <FormGroup validationState={this.state.email_state}>
+            <HelpBlock>email</HelpBlock>
             <FormControl
               className="email_input"
               type="email"
-              placeholder="email"
+              placeholder="you@example.com"
               inputRef={(ref)=>{this.email_in=ref}}
             />
           </FormGroup>
           <FormGroup validationState={this.state.password_state}>
+            <HelpBlock>password</HelpBlock>
             <FormControl
               className="pword"
               type="password"
-              placeholder="password"
+              placeholder="password must be at least 6 characters"
               inputRef={(ref)=>{this.pword_in=ref}}
             />
           </FormGroup>
-          <Button type="submit" bsStyle="primary">Submit</Button>
+          <Button type="submit" bsStyle="primary">create account</Button>
         </form>
+        <p>forgot password?</p>
       </div>
     );
   }
