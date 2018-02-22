@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Form, FormGroup, FormControl, HelpBlock, Alert } from 'react-bootstrap';
+import { Button, FormGroup, FormControl, HelpBlock, Alert } from 'react-bootstrap';
 import style from './log-in.css';
 
 class LogIn extends Component {
@@ -136,7 +136,6 @@ class LogIn extends Component {
   render() {
     const val_email = this.state.email_valid;
     const val_pass = this.state.pass_valid;
-    const val_form = this.state.form_valid;
     return (
       <div className="si_con">
         <h3>Sign In</h3>

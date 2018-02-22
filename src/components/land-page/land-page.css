@@ -1,0 +1,9 @@
+#land_info {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+#landing_text {
+  margin: auto;
+}

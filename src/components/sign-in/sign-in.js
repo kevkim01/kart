@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Button, Form, FormGroup, FormControl, HelpBlock, Alert } from 'react-bootstrap';
-import style from './create-account.css';
+import style from './sign-in.css';
 import firebase from 'firebase';
 import { Redirect } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 
-class CreateAccount extends Component {
+class SignIn extends Component {
 
   constructor() {
     super();
@@ -18,25 +18,17 @@ class CreateAccount extends Component {
     const e_val = this.email_in.value;
     const p_val = this.pword_in.value;
 
-    firebase.auth().createUserWithEmailAndPassword(e_val, p_val)
+    toast.dismiss();
+
+    firebase.auth().signInWithEmailAndPassword(e_val, p_val)
       .then(function(){
         toast.dismiss();
       })
-      .catch(function(error){
+      .catch(function(error) {
         var errorCode = error.code;
         var errorMessage = error.message;
 
-        toast.dismiss();
-
-        if (errorCode === 'auth/email-already-in-use'){
-          toast
-            ("email already in use", {
-              autoClose: false,
-              type: toast.TYPE.ERROR,
-              position:toast.POSITION.TOP_CENTER
-            });
-        }
-        else if (errorCode === 'auth/invalid-email'){
+        if(errorCode === 'auth/invalid-email'){
           toast
             ("invalid email", {
               autoClose: false,
@@ -44,15 +36,23 @@ class CreateAccount extends Component {
               position:toast.POSITION.TOP_CENTER
             });
         }
-        else if(errorCode === 'auth/weak-password'){
+        else if(errorCode === 'auth/user-disabled'){
           toast
-            ("password must be at least 6 characters", {
+            ("user has been disabled", {
               autoClose: false,
               type: toast.TYPE.ERROR,
               position:toast.POSITION.TOP_CENTER
             });
         }
-        else{
+        else if(errorCode === 'auth/user-not-found'){
+          toast
+            ("user not found", {
+              autoClose: false,
+              type: toast.TYPE.ERROR,
+              position:toast.POSITION.TOP_CENTER
+            });
+        }
+        else if(errorCode === 'auth/wrong-password'){
           toast
             (errorMessage, {
               autoClose: false,
@@ -60,7 +60,7 @@ class CreateAccount extends Component {
               position:toast.POSITION.TOP_CENTER
             });
         }
-      })
+      });
     e.preventDefault();
   }
 
@@ -70,8 +70,8 @@ class CreateAccount extends Component {
     }
     return(
       <div>
-      <ToastContainer />
-      <h3>CREATE ACCOUNT</h3>
+        <ToastContainer />
+        <h3>SIGN IN</h3>
         <form onSubmit={this.handleSubmit.bind(this)} noValidate>
           <FormGroup validationState={this.state.email_state}>
             <FormControl
@@ -95,4 +95,4 @@ class CreateAccount extends Component {
     );
   }
 }
-export default CreateAccount;
+export default SignIn;
