@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import firebase from 'firebase';
 import style from './nav-bar.css';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 class NavBar extends Component {
 
@@ -28,16 +28,32 @@ class NavBar extends Component {
 
           </Navbar.Brand>
         </Navbar.Header>
-        <Nav>
+        <Nav pullRight>
           {this.props.authenticated
             ? ( // if you are signed in
               <NavItem>
-                <Link to="/sign-out">sign out</Link>
+                <NavLink
+                  className="navigation-link"
+                  to="/sign-out"
+                  style={{color:'rgb(83, 99, 117)'}}
+                  activeStyle={{textDecoration:'none', color:'rgb(52, 69, 92)'}}
+                >
+                  <span className="fa fa-sign-out" style={{marginRight:'4px'}}></span>
+                  sign out
+                </NavLink>
               </NavItem>
             )
             : ( // if you are signed out
               <NavItem>
-                  <Link to="/sign-in">sign in</Link>
+                  <NavLink
+                    className="navigation-link"
+                    to="/sign-in"
+                    style={{color:'rgb(83, 99, 117)'}}
+                    activeStyle={{textDecoration:'none', color:'rgb(52, 69, 92)'}}
+                  >
+                    <span className="fa fa-sign-in" style={{marginRight:'4px'}}></span>
+                    sign in
+                  </NavLink>
               </NavItem>
             )
           }
@@ -45,12 +61,28 @@ class NavBar extends Component {
           {this.props.authenticated
             ? (
               <NavItem>
-                <Link to="/profile">{this.props.email}</Link>
+                <NavLink
+                  className="navigation-link"
+                  to="/profile"
+                  style={{color:'rgb(83, 99, 117)'}}
+                  activeStyle={{textDecoration:'none', color:'rgb(52, 69, 92)'}}
+                >
+                  <span className="fa fa-user" style={{marginRight:'4px'}}></span>
+                  {this.props.email}
+                </NavLink>
               </NavItem>
             )
             : (
               <NavItem>
-                <Link to="/create-account">create account</Link>
+                <NavLink
+                  className="navigation-link"
+                  to="/create-account"
+                  style={{color:'rgb(83, 99, 117)'}}
+                  activeStyle={{textDecoration:'none', color:'rgb(52, 69, 92)'}}
+                >
+                  <span className="fa fa-user-plus" style={{marginRight:'4px'}}></span>
+                  create account
+                </NavLink>
               </NavItem>
             )
           }

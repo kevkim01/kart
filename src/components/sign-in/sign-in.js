@@ -4,6 +4,7 @@ import style from './sign-in.css';
 import firebase from 'firebase';
 import { Redirect } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import Logo from '../logo/logo'
 
 class SignIn extends Component {
 
@@ -72,28 +73,47 @@ class SignIn extends Component {
       return <Redirect to='/my-page' />
     }
     return(
-      <div>
+      <div className="main_content_si">
+
         <ToastContainer />
-        <h3>SIGN IN</h3>
-        <form onSubmit={this.handleSubmit.bind(this)} noValidate>
-          <FormGroup validationState={this.state.email_state}>
-            <FormControl
-              className="email_input"
-              type="email"
-              placeholder="email"
-              inputRef={(ref)=>{this.email_in=ref}}
-            />
-          </FormGroup>
-          <FormGroup validationState={this.state.password_state}>
-            <FormControl
-              className="pword"
-              type="password"
-              placeholder="password"
-              inputRef={(ref)=>{this.pword_in=ref}}
-            />
-          </FormGroup>
-          <Button type="submit" bsStyle="primary">Submit</Button>
-        </form>
+
+        <div className="heads">
+          <Logo/>
+          <h3>sign in to account</h3>
+        </div>
+
+        <div className="contain_form">
+          <form onSubmit={this.handleSubmit.bind(this)} noValidate className="form_info_si">
+
+            <FormGroup validationState={this.state.email_state}>
+              <HelpBlock>email address</HelpBlock>
+              <FormControl
+                className="email_input"
+                type="email"
+                placeholder="you@example.com"
+                inputRef={(ref)=>{this.email_in=ref}}
+              />
+            </FormGroup>
+
+            <FormGroup validationState={this.state.password_state}>
+              <HelpBlock>password</HelpBlock>
+              <FormControl
+                className="pword"
+                type="password"
+                placeholder="password"
+                inputRef={(ref)=>{this.pword_in=ref}}
+              />
+            </FormGroup>
+
+            <div className="button_el">
+              <Button type="submit" bsStyle="primary">Submit</Button>
+            </div>
+
+          </form>
+          <div className="f_password">
+            <p>forgot password?</p>
+          </div>
+        </div>
       </div>
     );
   }
