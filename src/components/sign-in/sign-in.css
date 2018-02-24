@@ -40,3 +40,7 @@
   width: 50%;
   height: 50%;
 }
+
+.hov:hover{
+  cursor: pointer;
+}

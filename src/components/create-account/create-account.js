@@ -25,6 +25,12 @@ class CreateAccount extends Component {
         this.setState({
           redirect:true
         })
+        var user = firebase.auth().currentUser;
+        user.sendEmailVerification().then(function() {
+          console.log('email sent');
+        }).catch(function(error) {
+          console.log('error');
+        });
       }.bind(this))
       .catch(function(error){
         var errorCode = error.code;

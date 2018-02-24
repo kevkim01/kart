@@ -4,14 +4,16 @@ import style from './sign-in.css';
 import firebase from 'firebase';
 import { Redirect } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
-import Logo from '../logo/logo'
+import Logo from '../logo/logo';
+import ResetPassword from '../reset-password/reset-password';
 
 class SignIn extends Component {
 
   constructor() {
     super();
     this.state ={
-      redirect:false
+      redirect:false,
+      show: false,
     }
   }
 
@@ -68,6 +70,18 @@ class SignIn extends Component {
     e.preventDefault();
   }
 
+  handleClick() {
+    this.setState({
+      show: true
+    })
+  }
+
+  handleModal() {
+    this.setState({
+      show:false
+    })
+  }
+
   render() {
     if(this.state.redirect === true){
       return <Redirect to='/my-page' />
@@ -76,10 +90,11 @@ class SignIn extends Component {
       <div className="main_content_si">
 
         <ToastContainer />
+        <ResetPassword show={this.state.show} handleModal={this.handleModal.bind(this)}/>
 
         <div className="heads">
           <Logo/>
-          <h3>sign in to account</h3>
+          <h3>sign in to kart</h3>
         </div>
 
         <div className="contain_form">
@@ -111,7 +126,7 @@ class SignIn extends Component {
 
           </form>
           <div className="f_password">
-            <p>forgot password?</p>
+            <a className="hov"><p onClick={this.handleClick.bind(this)}>forgot password?</p></a>
           </div>
         </div>
       </div>
