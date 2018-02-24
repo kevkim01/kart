@@ -16,12 +16,6 @@ class ResetPassword extends Component {
     }
   }
 
-  resetModal() {
-    this.setState({
-      change:false
-    });
-  }
-
   handleSubmit(e){
     var auth = firebase.auth();
     const emailAddress = this.email_in.value;
@@ -32,7 +26,6 @@ class ResetPassword extends Component {
 
     firebase.auth().sendPasswordResetEmail(emailAddress)
       .then(function() {
-        console.log('here');
         toast.dismiss();
         this.setState({
           change: true
@@ -79,11 +72,9 @@ class ResetPassword extends Component {
   render() {
     return (
       <div>
-
         <Modal
           show={this.props.show}
           onHide={this.props.handleModal}
-          onHide={this.state.change ? this.resetModal() : null}
         >
             <Modal.Header closeButton>
               <Modal.Title>
@@ -96,8 +87,8 @@ class ResetPassword extends Component {
 
             {this.state.change
               ? (
-                  <div className="hold_content">
-                    <h4>email sent! <span className="fa fa-check-circle"></span> </h4>
+                  <div className="hold_content_sent">
+                    <h5>email sent! <span className="fa fa-check-circle"></span> </h5>
                   </div>
               )
               : (
