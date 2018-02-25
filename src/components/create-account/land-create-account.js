@@ -1,19 +1,16 @@
 import React, { Component } from 'react';
-import { Button, Form, FormGroup, FormControl, HelpBlock, Alert } from 'react-bootstrap';
-import style from './sign-in.css';
+import { Button, Form, FormGroup, FormControl, ControlLabel, HelpBlock, Alert } from 'react-bootstrap';
+import style from './land-create-account.css';
 import firebase from 'firebase';
 import { Redirect, Link } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
-import Logo from '../logo/logo';
-import ResetPassword from '../reset-password/reset-password';
+import { toast } from 'react-toastify';
 
-class SignIn extends Component {
+class LandCreateAccount extends Component {
 
   constructor() {
     super();
     this.state ={
-      redirect:false,
-      show: false,
+      redirect:false
     }
   }
 
@@ -21,20 +18,34 @@ class SignIn extends Component {
     const e_val = this.email_in.value;
     const p_val = this.pword_in.value;
 
-    toast.dismiss();
-
-    firebase.auth().signInWithEmailAndPassword(e_val, p_val)
+    firebase.auth().createUserWithEmailAndPassword(e_val, p_val)
       .then(function(){
         toast.dismiss();
         this.setState({
           redirect:true
         })
+        var user = firebase.auth().currentUser;
+        user.sendEmailVerification().then(function() {
+          // console.log('email sent');
+        }).catch(function(error) {
+          // console.log('error');
+        });
       }.bind(this))
-      .catch(function(error) {
+      .catch(function(error){
         var errorCode = error.code;
         var errorMessage = error.message;
 
-        if(errorCode === 'auth/invalid-email'){
+        toast.dismiss();
+
+        if (errorCode === 'auth/email-already-in-use'){
+          toast
+            ("email already in use", {
+              autoClose: false,
+              type: toast.TYPE.ERROR,
+              position:toast.POSITION.TOP_CENTER
+            });
+        }
+        else if (errorCode === 'auth/invalid-email'){
           toast
             ("invalid email", {
               autoClose: false,
@@ -42,23 +53,15 @@ class SignIn extends Component {
               position:toast.POSITION.TOP_CENTER
             });
         }
-        else if(errorCode === 'auth/user-disabled'){
+        else if(errorCode === 'auth/weak-password'){
           toast
-            ("user has been disabled", {
+            ("password must be at least 6 characters", {
               autoClose: false,
               type: toast.TYPE.ERROR,
               position:toast.POSITION.TOP_CENTER
             });
         }
-        else if(errorCode === 'auth/user-not-found'){
-          toast
-            ("user not found", {
-              autoClose: false,
-              type: toast.TYPE.ERROR,
-              position:toast.POSITION.TOP_CENTER
-            });
-        }
-        else if(errorCode === 'auth/wrong-password'){
+        else{
           toast
             (errorMessage, {
               autoClose: false,
@@ -70,35 +73,20 @@ class SignIn extends Component {
     e.preventDefault();
   }
 
-  handleClick() {
-    this.setState({
-      show: true
-    })
-  }
-
-  handleModal() {
-    this.setState({
-      show:false
-    })
-  }
-
   render() {
     if(this.state.redirect === true){
       return <Redirect to='/my-page' />
     }
     return(
-      <div className="main_content_si">
+      <div className="land_main_content">
 
-        <ResetPassword show={this.state.show} handleModal={this.handleModal.bind(this)}/>
+        <div className="land_head">
+          <h2>Get Started!</h2>
+        </div>
 
-        <div className="contain_form">
-
-          <div className="heads">
-            <Logo/>
-            <h3>sign in to kart</h3>
-          </div>
-
-          <form onSubmit={this.handleSubmit.bind(this)} noValidate className="form_info_si">
+        <div className="land_form_contain">
+          <h4 id="create_mess">create an account</h4>
+          <form onSubmit={this.handleSubmit.bind(this)} noValidate className="land_form_info">
 
             <FormGroup validationState={this.state.email_state}>
               <HelpBlock>email address</HelpBlock>
@@ -115,22 +103,25 @@ class SignIn extends Component {
               <FormControl
                 className="pword"
                 type="password"
-                placeholder="password"
+                placeholder="password must be at least 6 characters"
                 inputRef={(ref)=>{this.pword_in=ref}}
               />
             </FormGroup>
 
-            <div className="button_el">
-              <Button type="submit" bsStyle="primary">Submit</Button>
+            <div className="land_button_element">
+              <Button type="submit" bsStyle="primary">create account</Button>
+              <div id="ques">
+                <p id="account_mess">already have an account?</p>
+                <Link to="/sign-in">sign in here</Link>
+              </div>
             </div>
 
+
           </form>
-          <div className="f_password">
-            <a className="hov"><p onClick={this.handleClick.bind(this)}>forgot password?</p></a>
-          </div>
         </div>
       </div>
     );
   }
 }
-export default SignIn;
+
+export default LandCreateAccount;

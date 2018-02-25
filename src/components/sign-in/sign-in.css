@@ -1,5 +1,6 @@
 .heads {
   margin-bottom: 6%;
+  margin-top:  5%;
   text-align: center;
   color: rgb(52, 69, 92);
 }
@@ -8,7 +9,7 @@
   margin: auto;
   position: relative;
   width: 40%;
-  top: 2%;
+  top: 12%;
 }
 
 .contain_form {

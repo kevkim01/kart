@@ -3,7 +3,7 @@ import { Button, Form, FormGroup, FormControl, ControlLabel, HelpBlock, Alert } 
 import style from './create-account.css';
 import firebase from 'firebase';
 import { Redirect } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import Logo from '../logo/logo';
 
 class CreateAccount extends Component {
@@ -27,9 +27,9 @@ class CreateAccount extends Component {
         })
         var user = firebase.auth().currentUser;
         user.sendEmailVerification().then(function() {
-          console.log('email sent');
+          // console.log('email sent');
         }).catch(function(error) {
-          console.log('error');
+          // console.log('error');
         });
       }.bind(this))
       .catch(function(error){
@@ -81,14 +81,13 @@ class CreateAccount extends Component {
     return(
       <div className="main_content">
 
-        <ToastContainer/>
-
-        <div className="head">
-          <Logo/>
-          <h3>create kart account</h3>
-        </div>
-
         <div className="form_contain">
+
+          <div className="head">
+            <Logo/>
+            <h3>create kart account</h3>
+          </div>
+
           <form onSubmit={this.handleSubmit.bind(this)} noValidate className="form_info">
 
             <FormGroup validationState={this.state.email_state}>

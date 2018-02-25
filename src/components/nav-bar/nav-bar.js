@@ -14,7 +14,7 @@ class NavBar extends Component {
 
   render() {
     return(
-      <Navbar>
+      <Navbar style={{marginBottom:'0'}}>
         <Navbar.Header>
           <Navbar.Brand>
             {this.props.authenticated

@@ -9,6 +9,8 @@ import SignOut from './components/sign-out/sign-out';
 import Profile from './components/profile/profile';
 import MyPage from './components/my-page/my-page';
 import { BrowserRouter,Route } from 'react-router-dom';
+
+import { ToastContainer, toast } from 'react-toastify';
 import './App.css';
 
 class App extends Component {
@@ -56,6 +58,8 @@ class App extends Component {
       )
     }
     return (
+      <div>
+      <ToastContainer />
       <BrowserRouter>
         <div className="main">
           <NavBar authenticated={this.state.authenticated} email={this.state.email}/>
@@ -70,6 +74,7 @@ class App extends Component {
           </div>
         </div>
       </BrowserRouter>
+      </div>
     );
   }
 }

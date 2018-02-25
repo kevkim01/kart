@@ -1,5 +1,6 @@
 .head {
   margin-bottom: 6%;
+  margin-top:5%;
   text-align: center;
   color: rgb(52, 69, 92);
 }
@@ -8,7 +9,7 @@
   margin: auto;
   position: relative;
   width: 40%;
-  top: 2%;
+  top: 12%;
 }
 
 .form_contain {
@@ -29,11 +30,6 @@
   margin-top: 10%;
   text-align: center;
 }
-
-/* .f_password {
-  margin-top: 5%;
-  text-align: center;
-} */
 
 .logo_contain {
   margin: auto;

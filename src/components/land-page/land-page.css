@@ -1,9 +1,40 @@
-#land_info {
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
+.land_contain {
+  color: rgb(236, 241, 244);
+  font-family: sans-serif;
+}
+
+#page_con {
+  width: 75%;
+  margin: auto;
+  padding-top: 5%;
+}
+
+#info_layout {
+  color: rgb(185, 199, 217);
+}
+
+#kart_head {
+  font-size: 6em;
+  margin-bottom: 0;
+  margin-top: 0;
+  color: rgb(236, 241, 244);
+}
+
+#kart_mess {
+  margin-top: 2px;
+  font-size: 17px;
+  margin-bottom: 13%;
 }
 
 #landing_text {
-  margin: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: auto;
+  margin-left: 6%;
+}
+
+#land_info {
+  margin-bottom: 12%;
+  display: flex;
+  align-items: center;
 }
