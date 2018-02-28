@@ -27,7 +27,7 @@ class SignOut extends Component {
       return <Redirect to="/" />
     }
     return (
-      <div style={{ textAlign: "center", position: "absolute", top: "25%", left: "50%" }}>
+      <div style={{ textAlign: "center", position: "absolute", top: "25%", left: "50%", color:"rgb(236, 241, 244)" }}>
         <h3>Logging Out</h3>
         <i className="fa fa-spinner fa-spin fa-5x"></i>
       </div>
