@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
-import { DB_CONFIG } from './Config/config';
+import { app } from './Config/config';
 import CreateAccount from './components/create-account/create-account';
 import NavBar from './components/nav-bar/nav-bar';
 import LandPage from './components/land-page/land-page';
@@ -9,15 +9,12 @@ import SignOut from './components/sign-out/sign-out';
 import Profile from './components/profile/profile';
 import MyPage from './components/my-page/my-page';
 import { BrowserRouter,Route } from 'react-router-dom';
-
 import { ToastContainer, toast } from 'react-toastify';
 import './App.css';
 
 class App extends Component {
   constructor() {
     super();
-    this.app = firebase.initializeApp(DB_CONFIG);
-    //this.db = this.app.database().ref().child();
     this.state ={
       authenticated:false,
       loading:true,
@@ -26,7 +23,7 @@ class App extends Component {
   }
 
   componentWillMount() {
-    this.removeAuthListener = this.app.auth().onAuthStateChanged((user) => {
+    this.removeAuthListener = app.auth().onAuthStateChanged((user) => {
       if(user){
         this.setState({
           authenticated:true,
@@ -47,7 +44,7 @@ class App extends Component {
   componentWillUnmount(){
     this.removeAuthListener;
   }
-
+  
   render() {
     if (this.state.loading === true) {
       return (

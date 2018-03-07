@@ -24,12 +24,19 @@ class LandCreateAccount extends Component {
         this.setState({
           redirect:true
         })
+
+        var e_user = firebase.auth().currentUser;
+        e_user.sendEmailVerification()
+          .then(function() {
+          }).catch(function(error) {
+          });
+
         var user = firebase.auth().currentUser;
-        user.sendEmailVerification().then(function() {
-          // console.log('email sent');
-        }).catch(function(error) {
-          // console.log('error');
+        const account = firebase.database().ref('users').child(user.uid);
+        account.set({
+          email: e_val
         });
+
       }.bind(this))
       .catch(function(error){
         var errorCode = error.code;

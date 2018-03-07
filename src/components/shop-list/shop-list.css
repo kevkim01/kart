@@ -1,0 +1,13 @@
+.disp_list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 5%;
+}
+
+.disp_list li {
+  border: solid rgb(205, 210, 213) 1px;
+  background: rgb(205, 222, 230);
+  margin-bottom: 2%;
+  padding: 1%;
+  border-radius: 4px;
+}
