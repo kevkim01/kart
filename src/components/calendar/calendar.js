@@ -13,26 +13,19 @@ class MyCalendar extends Component {
     super();
     BigCalendar.momentLocalizer(moment);
     this.state={
-      // events: new Array(),
       show:false,
       title:"",
+      event_key:""
     }
   }
 
-  // componentWillUpdate(){
-  //   const ev = this.props.events;
-  //   this.setState({
-  //     events: ev
-  //   })
-  //   console.log('we in dis bitch');
-  // }
-
   handleSelectEvent(slotinfo){
-    var vals = Object.values(slotinfo);
-    var title_val = vals[2];
+    var title_val = slotinfo.title;
+    var u_key = slotinfo.title+slotinfo.startDate.toString();
     this.setState({
       show: true,
       title: title_val,
+      event_key: u_key
     })
   }
 
@@ -45,7 +38,11 @@ class MyCalendar extends Component {
   render(){
     return(
       <div id="calendar_contain">
-        <CreateEvent show={this.state.show} handleModal={this.handleModal.bind(this)} title={this.state.title}/>
+        <CreateEvent
+          show={this.state.show}
+          handleModal={this.handleModal.bind(this)}
+          title={this.state.title}
+          event_key={this.state.event_key}/>
         <BigCalendar
           events={this.props.events}
           startAccessor='startDate'

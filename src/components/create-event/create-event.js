@@ -16,10 +16,6 @@ class CreateEvent extends Component {
     }
   }
 
-  handleSubmit(e){
-
-  }
-
   render() {
     return (
       <div>
@@ -36,7 +32,7 @@ class CreateEvent extends Component {
             </Modal.Header>
             <Modal.Body>
               <div className="hold_content">
-                <ShopList />
+                <ShopList eventKey={this.props.event_key}/>
               </div>
             </Modal.Body>
             <Modal.Footer>

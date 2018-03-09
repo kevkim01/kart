@@ -4,16 +4,27 @@ import style from './shop-list.css';
 import firebase from 'firebase';
 import { Redirect } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import FlipMove from 'react-flip-move';
+import { base } from '../../Config/config';
 
 class ShopList extends Component {
 
   constructor() {
     super();
-    this.createTasks = this.createTasks.bind(this);
+    this.deleteTask = this.deleteTask.bind(this);
     this.state ={
       items:[],
       index:0
     }
+  }
+
+  componentWillMount(){
+    var user = firebase.auth().currentUser;
+    var itemsRef = base.syncState('users/' + user.uid + '/events/' + this.props.eventKey + '/items', {
+      context: this,
+      state: 'items',
+      asArray: true
+     });
   }
 
   handleSubmit(e){
@@ -23,34 +34,46 @@ class ShopList extends Component {
       item:this.shop_item.value,
       key:Date.now()
     };
-    this.setState({
-      items: a,
-      index: i+1
-    })
+
+    var user = firebase.auth().currentUser;
+    var itemKey = this.shop_item.value;
+    const account = firebase.database().ref('users/' + user.uid + '/events/' + this.props.eventKey + '/items').child(itemKey);
+    account.set({
+      item: this.shop_item.value
+    });
     e.target.reset();
     e.preventDefault();
   }
 
-  createTasks(d) {
-    return <li key={d.key}>{d.item}<span className="fa fa-times"></span></li>
+  deleteTask(key) {
+    var filteredItems = this.state.items.filter(function (item) {
+      return (item.key !== key);
+    });
+
+    this.setState({
+      items: filteredItems
+    });
   }
 
   render() {
-    var listItems = this.state.items.map(this.createTasks);
     return (
+
       <div>
-        {listItems.length != 0
-          ? (
-            <div>
-              <ul className="disp_list">
-                {listItems}
-              </ul>
-            </div>
-          )
-          : (
-            <div></div>
-          )
-      }
+      <FlipMove duration={400} easing="ease-out">
+       {this.state.items.map(d => (
+         <div className="item_row" key={d.key}>
+           <div id="listItem" className="col-sm-6">
+             <div id="listItem" key={d.key}>{d.item}</div>
+           </div>
+           <div id="ex_contain" className="col-sm-6">
+             <span id="ex" className="fa fa-times"
+               onClick={() => this.deleteTask(d.key)}>
+              </span>
+           </div>
+         </div>
+       ))}
+     </FlipMove>
+
         <form onSubmit={this.handleSubmit.bind(this)} noValidate>
           <FormGroup validationState={this.state.password_state}>
             <FormControl

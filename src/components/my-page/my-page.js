@@ -37,42 +37,12 @@ class MyPage extends Component {
           this.setState({loading: false})
         }
        });
-
-       // .then(function(){
-       //   this.setState({
-       //     loading:false
-       //   })
-       // });
-      // var user_id = user.uid;
-      // var user_events = firebase.database().ref('users/' + user_id + '/events/');
-      // user_events.once('value').then(function(snapshot){
-      //   snapshot.forEach(function(data){
-      //     const yr = data.val().year;
-      //     const month = data.val().month;
-      //     const day = data.val().day;
-      //     const event_info = {
-      //       title: data.val().title,
-      //       startDate: new Date(yr,month,day),
-      //       endDate: new Date(yr,month,day)
-      //     }
-      //     populate_event.push(event_info);
-      //   })
-      // });
-      // setTimeout(() => {
-      //   this.setState({
-      //     events: populate_event,
-      //     loading: false,
-      //   });}, 0);
-      // this.setState({
-      //   events: populate_event,
-      //   loading: false,
-      // })
+    }
   }
-}
 
-  // componentDidUpdate(){
-  //
-  // }
+  componentWillUnmount(){
+    base.removeBinding(this.eventsRef);
+  }
 
   handleSubmit(e){
     var name = this.event_in.value;
@@ -84,30 +54,25 @@ class MyPage extends Component {
     month = date.slice(5,7) - 1;
     day = date.slice(8,10) - 0;
 
-    var dup = this.state.events.slice(); //creates the clone of the state
     var new_date = new Date(yr,month,day);
     var newelement = {
       title: name,
       startDate:new_date.toString(),
       endDate:new_date.toString()
     };
-    dup.push(newelement);
 
+    var dup = this.state.events.slice();
+    dup.push(newelement);
     var user = firebase.auth().currentUser;
-    var key = name + date;
+
+    var key = name + new_date;
     const account = firebase.database().ref('users/' + user.uid + '/events').child(key);
     account.set({
       title: name,
-      year: yr,
-      month: month,
-      day: day,
-      date: new_date.toString()
+      startDate:new_date.toString(),
+      endDate:new_date.toString()
     });
 
-    this.setState({
-      events: dup,
-      index: i+1
-    })
     e.preventDefault();
     e.target.reset();
   }
