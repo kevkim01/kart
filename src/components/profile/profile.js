@@ -3,6 +3,7 @@ import style from './profile.css';
 import firebase from 'firebase';
 import { base } from '../../Config/config';
 import { Button, Form, FormGroup, FormControl, ControlLabel, HelpBlock, Alert } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 
 
 class Profile extends Component {
@@ -18,16 +19,16 @@ class Profile extends Component {
   componentWillMount(){
     //console.log("pals ", this.state.friends);
     var user = firebase.auth().currentUser;
-    this.eventsRef = base.syncState('users/' + user.uid +'/0', {
+    this.eventsRef = base.syncState('users/' + user.uid +'/email/', {
       context: this,
       state: 'disp_name'
      });
 
-     this.friendsRef = base.syncState('users/' + user.uid +'/friends', {
-       context: this,
-       state: 'friends',
-       asArray: true
-      });
+    this.friendsRef = base.syncState('users/' + user.uid +'/friends', {
+      context: this,
+      state: 'friends',
+      asArray: true
+    });
   }
 
   componentWillUnmount(){
@@ -48,18 +49,44 @@ class Profile extends Component {
       const users = snapshot.val();
       // USE USERS INFO TO ADD 'ME' TO THEIR FRIENDS LIST -> extract uid
       // make a path for the user to be added, use value 'me' to add friend if valid
+      console.log(dup.indexOf(fr_email));
+      if(fr_email === ""){
 
-      if(dup.indexOf(fr_email) === -1 && users && fr_email != me){
+      }
+      else if(dup.indexOf(fr_email) != -1){
+        toast
+          ("this user is already a friend", {
+            autoClose: false,
+            type: toast.TYPE.ERROR,
+            position:toast.POSITION.TOP_CENTER
+          });
+      }
+      else if(users == null){
+        toast
+          ("this email does not exist", {
+            autoClose: false,
+            type: toast.TYPE.ERROR,
+            position:toast.POSITION.TOP_CENTER
+          });
+      }
+      else if(fr_email === me){
+        toast
+          ("can not add yourself", {
+            autoClose: false,
+            type: toast.TYPE.ERROR,
+            position:toast.POSITION.TOP_CENTER
+          });
+      }
+
+      else{
         var add_fr = Object.keys(users)[0];
-        var key_me = new Date()+ '0';
-        var key_fr = new Date() + '1';
 
-        const account = firebase.database().ref('users/' + user.uid + '/friends').child(key_me);
+        const account = firebase.database().ref('users/' + user.uid + '/friends').child(add_fr);
         account.set({
           friend_email: fr_email
         });
 
-        const acc = firebase.database().ref('users/' + add_fr + '/friends').child(key_fr);
+        const acc = firebase.database().ref('users/' + add_fr + '/friends').child(user.uid);
         acc .set({
           friend_email: me
         })
@@ -71,11 +98,6 @@ class Profile extends Component {
   }
 
   render() {
-    console.log(this.state.friends);
-    const friendsL = this.state.friends.map((fr) =>
-      <li>{Object.values(fr)[0]}</li>
-    )
-
     return(
       <div id="pg_contain">
         <div id="disp_name_contain">
@@ -97,7 +119,15 @@ class Profile extends Component {
           </form>
 
           <div id="friendsList">
-            <ul>{friendsL}</ul>
+
+             {this.state.friends.map(d => (
+               <div className="item_row" key={d.key}>
+                 <div id="listItem">
+                   <div id="listItem" key={d.key}>{d.friend_email}</div>
+                 </div>
+               </div>
+             ))}
+
           </div>
 
         </div>

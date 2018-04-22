@@ -8,15 +8,21 @@ import { Button, Form, FormGroup, FormControl, HelpBlock, Alert } from 'react-bo
 import { base } from '../../Config/config';
 import { Redirect } from 'react-router-dom';
 import MyCalendar from '../calendar/calendar';
+import Select from 'react-select';
+import 'react-select/dist/react-select.css';
+
+
 
 class MyPage extends Component {
   constructor() {
     super();
     this.state={
       events: new Array(),
+      friends: new Array(),
       index: 0,
       redirect: false,
-      loading: true
+      loading: true,
+      friend_vals: []
     }
   }
 
@@ -38,10 +44,21 @@ class MyPage extends Component {
         }
        });
     }
+    this.friendsRef = base.syncState('users/' + user.uid +'/friends', {
+      context: this,
+      state: 'friends',
+      asArray: true
+    });
   }
 
   componentWillUnmount(){
     base.removeBinding(this.eventsRef);
+  }
+
+  handleChange(e){
+    this.setState({
+      friend_vals: e
+    })
   }
 
   handleSubmit(e){
@@ -75,6 +92,10 @@ class MyPage extends Component {
 
     e.preventDefault();
     e.target.reset();
+
+    //have the list of friends
+    //set state of friends vals = 0
+    //
   }
 
   render(){
@@ -89,6 +110,11 @@ class MyPage extends Component {
         </div>
       )
     }
+
+    var options = []
+    {this.state.friends.map(d => (
+      options.push({value: d.key, label: d.friend_email })
+    ))}
 
     return(
       <div className="row">
@@ -116,6 +142,17 @@ class MyPage extends Component {
                 inputRef={(ref)=>{this.date_in=ref}}
               />
             </FormGroup>
+
+            <HelpBlock>add friends</HelpBlock>
+            <Select
+              name="form-field-name"
+              multi={true}
+              removeSelected={true}
+              clearableValue={true}
+              onChange={this.handleChange.bind(this)}
+              options={options}
+              value={this.state.friend_vals}
+            />
 
             <div className="button_el">
               <Button type="submit" bsStyle="primary">Submit</Button>
