@@ -20,7 +20,7 @@ class ShopList extends Component {
 
   componentWillMount(){
     var user = firebase.auth().currentUser;
-    var itemsRef = base.syncState('users/' + user.uid + '/events/' + this.props.eventKey + '/items', {
+    var itemsRef = base.syncState('events/' + this.props.eventKey + '/items', {
       context: this,
       state: 'items',
       asArray: true
@@ -37,7 +37,7 @@ class ShopList extends Component {
 
     var user = firebase.auth().currentUser;
     var itemKey = this.shop_item.value;
-    const account = firebase.database().ref('users/' + user.uid + '/events/' + this.props.eventKey + '/items').child(itemKey);
+    const account = firebase.database().ref('events/' + this.props.eventKey + '/items').child(itemKey);
     account.set({
       item: this.shop_item.value
     });

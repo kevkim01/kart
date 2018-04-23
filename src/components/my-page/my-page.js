@@ -90,12 +90,25 @@ class MyPage extends Component {
       endDate:new_date.toString()
     });
 
+    var temp = this.state.friend_vals;
+    for(var i=0; i < temp.length; i++){
+      const account = firebase.database().ref('users/' + temp[i].value + '/events').child(key);
+      account.set({
+        title: name,
+        startDate:new_date.toString(),
+        endDate:new_date.toString()
+      });
+    }
+
+    const event_acc = firebase.database().ref('event_list').child(key);
+    event_acc.set({
+      title: name,
+      startDate:new_date.toString(),
+      endDate:new_date.toString()
+    });
+
     e.preventDefault();
     e.target.reset();
-
-    //have the list of friends
-    //set state of friends vals = 0
-    //
   }
 
   render(){
