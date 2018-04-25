@@ -1,3 +1,61 @@
 #pg_contain{
-  background: rgb(236, 241, 244)
+}
+
+#left_side{
+  border: solid black 1px;
+  margin: 5%;
+  height: 90%;
+  background-color: rgb(250, 250, 250);
+  border-radius: 3%;
+}
+
+#prof_pic{
+  padding: 20px;
+  border: solid black 1px;
+  margin: auto;
+  margin-top: 10%;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#prof_avatar{
+  font-size: 80px;
+}
+
+#disp_name_contain{
+  margin-top: 10%;
+}
+
+#add_friend_contain{
+  background-color: rgb(250, 250, 250);
+  margin-top: 5%;
+  margin-bottom: 5%;
+  height: 90%;
+  border-radius: 2.5%
+}
+
+#friendsList{
+  margin:4%;
+}
+
+#add_form{
+  width: 43%;
+  bottom: 10%;
+  position: fixed;
+}
+
+#button_s{
+  text-align: center;
+}
+
+#my_events{
+  margin-top: 20%;
+  text-align: center;
+}
+
+#goto_cal{
 }

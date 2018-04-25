@@ -4,6 +4,7 @@ import firebase from 'firebase';
 import { base } from '../../Config/config';
 import { Button, Form, FormGroup, FormControl, ControlLabel, HelpBlock, Alert } from 'react-bootstrap';
 import { toast } from 'react-toastify';
+import { Link, NavLink } from 'react-router-dom';
 
 
 class Profile extends Component {
@@ -12,14 +13,15 @@ class Profile extends Component {
     super();
     this.state ={
       disp_name:"",
-      friends: new Array()
+      friends: new Array(),
+      events: new Array()
     }
   }
 
   componentWillMount(){
     //console.log("pals ", this.state.friends);
     var user = firebase.auth().currentUser;
-    this.eventsRef = base.syncState('users/' + user.uid +'/email/', {
+    this.nameRef = base.syncState('users/' + user.uid +'/email/', {
       context: this,
       state: 'disp_name'
      });
@@ -29,11 +31,18 @@ class Profile extends Component {
       state: 'friends',
       asArray: true
     });
+
+    this.eventsRef = base.syncState('users/' + user.uid + '/events/', {
+      context: this,
+      state: 'events',
+      asArray: true
+    })
   }
 
   componentWillUnmount(){
-    base.removeBinding(this.eventsRef);
+    base.removeBinding(this.nameRef);
     base.removeBinding(this.friendsRef);
+    base.removeBinding(this.eventsRef);
   }
 
   handleSubmit(e){
@@ -99,27 +108,39 @@ class Profile extends Component {
 
   render() {
     return(
-      <div id="pg_contain">
-        <div id="disp_name_contain">
-          <h3>{this.state.disp_name}</h3>
-        </div>
-        <div id="add_friend_contain">
-          <h3>add friends</h3>
-          <form onSubmit={this.handleSubmit.bind(this)} noValidate className="">
-            <FormGroup>
-              <FormControl
-                type="email"
-                placeholder="search for friends by email"
-                inputRef={(ref)=>{this.friend_email=ref}}
-              />
-            </FormGroup>
-            <div className="button_el">
-              <Button type="submit" bsStyle="primary">Submit</Button>
+      <div id="pg_contain" className="row">
+        <div id="left_side" className="col-sm-4">
+          <div id="prof_pic">
+            <span className="fa fa-user-circle fa-5x" id="prof_avatar"></span>
+          </div>
+
+          <div id="disp_name_contain">
+            <p>email:</p>
+            <h4>{this.state.disp_name}</h4>
+          </div>
+
+          <div id="my_events">
+            <h3>my events</h3>
+
+            {this.state.events.map(d => (
+              <div className="item_row" key={d.key}>
+                <div id="listItem">
+                  <div id="listItem" key={d.key}>{d.title}</div>
+                </div>
+              </div>
+            ))}
+
+            <div id="goto_cal">
+              <Link to="/my-page">
+                <Button type="submit" bsStyle="primary">My Calendar</Button>
+              </Link>
             </div>
-          </form>
+          </div>
+        </div>
 
+        <div id="add_friend_contain" className="col-sm-6">
+          <h3>my friends</h3>
           <div id="friendsList">
-
              {this.state.friends.map(d => (
                <div className="item_row" key={d.key}>
                  <div id="listItem">
@@ -127,8 +148,21 @@ class Profile extends Component {
                  </div>
                </div>
              ))}
-
           </div>
+
+          <form onSubmit={this.handleSubmit.bind(this)} noValidate id="add_form">
+            <FormGroup>
+              <HelpBlock>add friends</HelpBlock>
+              <FormControl
+                type="email"
+                placeholder="search for friends by email"
+                inputRef={(ref)=>{this.friend_email=ref}}
+              />
+            </FormGroup>
+            <div id="button_s">
+              <Button type="submit" bsStyle="primary">Submit</Button>
+            </div>
+          </form>
 
         </div>
       </div>

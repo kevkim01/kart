@@ -107,6 +107,10 @@ class MyPage extends Component {
       endDate:new_date.toString()
     });
 
+    this.setState({
+      friend_vals: []
+    })
+
     e.preventDefault();
     e.target.reset();
   }
@@ -165,6 +169,8 @@ class MyPage extends Component {
               onChange={this.handleChange.bind(this)}
               options={options}
               value={this.state.friend_vals}
+              placeholder="my friends"
+              closeOnSelect={false}
             />
 
             <div className="button_el">
